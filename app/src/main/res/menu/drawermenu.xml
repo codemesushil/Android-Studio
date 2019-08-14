@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/sports_and_fitness"
+        android:title="Sports and Fitness"
+        android:icon="@drawable/sports_and_fitness"/>
+    <item
+        android:id="@+id/study"
+        android:title="Study"
+        android:icon="@drawable/study"/>
+    <item
+        android:id="@+id/Fiction"
+        android:title="Fiction"
+        android:icon="@drawable/fiction"/>
+    <item
+        android:id="@+id/Nonfiction"
+        android:title="Non-Fiction"
+        android:icon="@drawable/nonfiction"/>
+    <item
+        android:id="@+id/Settings"
+        android:title="Settings"
+        android:icon="@drawable/setting"/>
+    <item
+        android:id="@+id/Logout"
+        android:title="Logout"
+        android:icon="@drawable/logout"/>
+
+</menu>

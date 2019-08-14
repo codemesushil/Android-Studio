@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Bookiesh</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_Explore">Explore</string>
+    <string name="title_Fav">Favourites</string>
+    <string name="title_rentout">RentOut</string>
+    <string name="title_prof">Profile</string>
+</resources>
