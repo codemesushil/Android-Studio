@@ -10,6 +10,8 @@ public class book {
     private String bkrent;
     private String bkurl;
     private String days;
+    private String uid;
+    private String bid;
     private String available;
 
 
@@ -17,7 +19,11 @@ public class book {
 
     }
 
-    public String getavailable()   {return available;}
+    public String getavailable() {return available;}
+
+    public String getbid() {return bid;}
+
+    public String getuid()   {return uid;}
 
     public String getdays() { return days;}
 
@@ -42,7 +48,11 @@ public class book {
     }
 
 
-    public void setavailable(String available) {this.available=available;}
+    public void setavailable(String available) {this.available = available;}
+
+    public void setbid(String bid) {this.bid=bid;}
+
+    public void setuid(String uid) {this.uid=uid;}
 
     public  void setdays(String days) {this.days = days;}
 

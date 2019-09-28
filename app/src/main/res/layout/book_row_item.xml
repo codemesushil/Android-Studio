@@ -73,10 +73,10 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.458"
+            app:layout_constraintHorizontal_bias="0.48"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.66" />
+            app:layout_constraintVertical_bias="0.61" />
 
         <TextView
             android:id="@+id/rent"
@@ -87,10 +87,10 @@
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.431"
+            app:layout_constraintHorizontal_bias="0.46"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.867" />
+            app:layout_constraintVertical_bias="0.82" />
 
         <TextView
             android:id="@+id/textView18"
@@ -104,7 +104,7 @@
             app:layout_constraintHorizontal_bias="0.048"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.675" />
+            app:layout_constraintVertical_bias="0.63" />
 
         <TextView
             android:id="@+id/textView19"
@@ -118,7 +118,7 @@
             app:layout_constraintHorizontal_bias="0.041"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.855" />
+            app:layout_constraintVertical_bias="0.82" />
 
         <TextView
             android:id="@+id/textView20"
@@ -146,7 +146,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Description not available!"
+            android:text="Book is available!"
             android:textColor="@color/black"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"

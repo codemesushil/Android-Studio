@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="240dp"
+    android:padding="5dp"
+    android:background="@drawable/rmwishbtn"
+    android:layout_gravity="center"
+    android:outlineAmbientShadowColor="#461874">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/closeimg1"
+            android:layout_width="36dp"
+            android:layout_gravity="right|end"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/closethis" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="Some books from your cart may not be currently available,please review again!"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnadd"
+        android:layout_width="match_parent"
+        android:layout_marginTop="42dp"
+        android:background="@drawable/contibtn"
+        android:layout_height="wrap_content"
+        android:text="Review" />
+
+</LinearLayout>

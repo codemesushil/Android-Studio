@@ -65,7 +65,7 @@ public class wishlist_fragment extends Fragment {
                         book.setbkauthor(jsonObject.getString("author"));
                         book.setbkrent(jsonObject.getString("rent"));
                         book.setbkurl(jsonObject.getString("image"));
-                        book.setavailable(jsonObject.getString("available"));
+                       // book.setuid(jsonObject.getString("uid"));
                         lstBook.add(book);
 
                     }

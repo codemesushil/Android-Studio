@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -50,8 +51,9 @@ public class RecyclerViewAdapter_main extends RecyclerView.Adapter<RecyclerViewA
                 i.putExtra("author",mData.get(viewHolder.getAdapterPosition()).getbkauthor());
                 i.putExtra("rent",mData.get(viewHolder.getAdapterPosition()).getbkrent());
                 i.putExtra("image",mData.get(viewHolder.getAdapterPosition()).getbkurl());
-                i.putExtra("available",mData.get(viewHolder.getAdapterPosition()).getavailable());
+                i.putExtra("uid",mData.get(viewHolder.getAdapterPosition()).getuid());
                 mContext.startActivity(i);
+
 
             }
         });

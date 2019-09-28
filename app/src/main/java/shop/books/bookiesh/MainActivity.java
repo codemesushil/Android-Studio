@@ -30,6 +30,12 @@ public class MainActivity extends AppCompatActivity implements  BottomNavigation
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer);
@@ -124,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements  BottomNavigation
     public void onClick(View v) {
         if(v == mypropic)
         {
-
+            Toast.makeText(getApplicationContext(), "profile!", Toast.LENGTH_SHORT).show();
         }
     }
 }

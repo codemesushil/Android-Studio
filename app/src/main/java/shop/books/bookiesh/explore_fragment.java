@@ -29,7 +29,7 @@ public class explore_fragment extends Fragment {
 
     private JsonArrayRequest request ;
     private RequestQueue requestQueue ;
-    private List<book> lstBook;
+    private List<book> lstBook ;
     private RecyclerView recyclerView ;
 
     @Nullable
@@ -43,6 +43,7 @@ public class explore_fragment extends Fragment {
         return view;
     }
 
+
     private void jsonrequest() {
 
         request = new JsonArrayRequest(Constants.JSON_URL, new Response.Listener<JSONArray>()
@@ -55,17 +56,18 @@ public class explore_fragment extends Fragment {
                 {
                     try
                     {
+
                             jsonObject = response.getJSONObject(i);
                             book book = new book();
-                            book.setbkid(jsonObject.getString("bkid"));
-                            book.setbkname(jsonObject.getString("name"));
-                            book.setbkoriginalprice(jsonObject.getString("originalprice"));
-                            book.setbkauthor(jsonObject.getString("author"));
-                            book.setbkrent(jsonObject.getString("rent"));
-                            book.setbkurl(jsonObject.getString("image"));
-                            book.setavailable(jsonObject.getString("available"));
-                            lstBook.add(book);
-
+                            if(!jsonObject.getString("bkid").equals("0")) {
+                                book.setbkid(jsonObject.getString("bkid"));
+                                book.setbkname(jsonObject.getString("name"));
+                                book.setbkoriginalprice(jsonObject.getString("originalprice"));
+                                book.setbkauthor(jsonObject.getString("author"));
+                                book.setbkrent(jsonObject.getString("rent"));
+                                book.setbkurl(jsonObject.getString("image"));
+                                lstBook.add(book);
+                            }
                     }
                         catch (JSONException e)
                         {

@@ -79,6 +79,7 @@ public class RecyclerViewAdapter_cart extends RecyclerView.Adapter<RecyclerViewA
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
+        holder.tv_available.setText(mData.get(position).getavailable());
         holder.tv_bkname.setText(mData.get(position).getbkname());
         holder.tv_bkoriginalprice.setText("₹ "+mData.get(position).getbkoriginalprice());
         holder.tv_bkauthor.setText(mData.get(position).getbkauthor());
@@ -96,6 +97,7 @@ public class RecyclerViewAdapter_cart extends RecyclerView.Adapter<RecyclerViewA
 
     public static class MyViewHolder extends RecyclerView.ViewHolder
     {
+        TextView tv_available;
         TextView tv_bkname ;
         TextView noofdays;
         TextView tv_bkoriginalprice ;
@@ -108,6 +110,7 @@ public class RecyclerViewAdapter_cart extends RecyclerView.Adapter<RecyclerViewA
         {
             super(itemView);
             view_container = itemView.findViewById(R.id.container1);
+            tv_available = itemView.findViewById(R.id.tvavailable);
             tv_bkname= itemView.findViewById(R.id.tvbkname);
             tv_bkoriginalprice = itemView.findViewById(R.id.cartoriginalprice);
             tv_bkauthor = itemView.findViewById(R.id.cartauthor);

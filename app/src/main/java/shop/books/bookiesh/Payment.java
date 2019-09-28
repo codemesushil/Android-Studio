@@ -20,7 +20,7 @@ public class Payment extends AppCompatActivity {
         tvtotal.setText("₹"+SharedPrefManager.getInstance(getApplicationContext()).getUserWallet());
 
         tvprice = (TextView)findViewById(R.id.price);
-        tvprice.setText(" ₹ "+ m1.total);
+        tvprice.setText(" ₹ "+ m1.carrytotal);
 
         button = (Button)findViewById(R.id.buttonpay);
         button.setOnClickListener(new View.OnClickListener() {

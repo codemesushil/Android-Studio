@@ -1,13 +1,18 @@
 package shop.books.bookiesh;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,12 +36,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnLogin;
     private ProgressDialog progressDialog;
     private TextView tvregister,tvforgot;
+    Dialog myDialog;
+    ImageView closethis;
+    Button btnFollow;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        myDialog = new Dialog(this);
+
 
         etEmail = (EditText)findViewById(R.id.etEmail);
         etPassword = (EditText)findViewById(R.id.etPassword);
@@ -96,6 +106,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
     }
 
+
+    public void ShowPopup(View v) {
+        myDialog.setContentView(R.layout.custompopup);
+        closethis = myDialog.findViewById(R.id.closeimg);
+        closethis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
+
+
+
     @Override
     public void onClick(View v) {
         if(v == btnLogin){
@@ -106,8 +134,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(new Intent(getApplicationContext(),RegistrationActivity.class));
         }
         if(v == tvforgot){
-            finish();
-            startActivity(new Intent(getApplicationContext(),Resetpassword.class));
+            //startActivity(new Intent(getApplicationContext(),Resetpassword.class));
+           ShowPopup(v);
         }
     }
 }

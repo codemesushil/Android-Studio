@@ -22,24 +22,10 @@ public class Resetpassword extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mycart);
+        setContentView(R.layout.custompopup);
 
         myDialog = new Dialog(this);
     }
 
-    public void ShowPopup(View v) {
-        myDialog.setContentView(R.layout.custompopup);
-        closethis = myDialog.findViewById(R.id.closeimg);
-//        btnFollow = myDialog.findViewById(R.id.btnreset);
-        closethis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myDialog.dismiss();
-                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
-                finish();
-            }
-        });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-    }
+
 }

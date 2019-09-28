@@ -20,23 +20,34 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //this class is for description of single book(add to cart and buy now buttons).....................................................
 public class BookActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button addtocart,add_days,buynow;
+    Button addtocart,add_tocartdays,buynow;
     String bkid;
     Dialog myDialog;
     ImageView closethis,imgfav;
-    public int FLAG=0;
     private ProgressDialog progressDialog;
+    String bkrent;
+    private JsonArrayRequest request1 ;
+    private List<book> Bookcheck;
+    private RequestQueue requestQueue ;
+
+
 
 
     @Override
@@ -51,26 +62,29 @@ public class BookActivity extends AppCompatActivity implements View.OnClickListe
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading cart...");
-
-        add_days = (Button)findViewById(R.id.btnmycart);
-        if(getIntent().getExtras().getString("available").equals(SharedPrefManager.getInstance(getApplicationContext()).getUserid()))
-        {
-            add_days.setText("Go to cart");
-        }
+        cart_added_check();
+        add_tocartdays = (Button)findViewById(R.id.btnmycart);
         buynow = (Button)findViewById(R.id.btnbuynow);
 
         imgfav = (ImageView)findViewById(R.id.fav);
 
         buynow.setOnClickListener(this);
-        add_days.setOnClickListener(this);
+        add_tocartdays.setOnClickListener(this);
         imgfav.setOnClickListener(this);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Recieve data
         bkid = getIntent().getExtras().getString("bkid");
         String bkname  = getIntent().getExtras().getString("name");
         String bkoriginalprice = getIntent().getExtras().getString("originalprice");
         String bkauthor = getIntent().getExtras().getString("author") ;
-        String bkrent = getIntent().getExtras().getString("rent");
+        bkrent = getIntent().getExtras().getString("rent");
         String image_url = getIntent().getExtras().getString("image") ;
 
         // ini views
@@ -99,8 +113,55 @@ public class BookActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void addtomycart()
+    private void cart_added_check()
     {
+        request1 = new JsonArrayRequest(Constants.CART_JSON, new Response.Listener<JSONArray>()
+        {
+            @Override
+            public void onResponse(JSONArray response)
+            {
+                JSONObject jsonObject  = null ;
+                for (int i = 0 ; i < response.length(); i++ )
+                {
+                    try
+                    {
+                        jsonObject = response.getJSONObject(i);
+                        book book = new book();
+                        if(SharedPrefManager.getInstance(getApplicationContext()).getUserid().equals(jsonObject.getString("uid")) && bkid.equals(jsonObject.getString("bid")))
+                        {
+                            add_tocartdays.setText("Go to cart");
+                            break;
+                        }
+                            add_tocartdays.setText("Add to cart");
+//                            book.setbid(jsonObject.getString("bid"));
+//                            book.setuid(jsonObject.getString("uid"));
+//                        Bookcheck.add(book);
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                //setuprecyclerview(lstBook);
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+
+            }
+        });
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(request1) ;
+    }
+
+
+
+    private void addtomycart(String days1)
+    {
+        final String days11 =days1;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_TO_CART,
                 new Response.Listener<String>() {
                     @Override
@@ -117,8 +178,10 @@ public class BookActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("email",SharedPrefManager.getInstance(getApplicationContext()).getUserEmail());
+                params.put("userid",SharedPrefManager.getInstance(getApplicationContext()).getUserid());
                 params.put("bkid",bkid);
+                params.put("bkrent",bkrent);
+                params.put("days",days11);
 
                 return params;
             }
@@ -128,38 +191,7 @@ public class BookActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void add_days(String days)
-    {
-        final String days1=days;
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_DAYS,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response)
-                    {
-//                        Toast.makeText(mContext,response,Toast.LENGTH_LONG).show();
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Toast.makeText(getApplicationContext(),error.toString(),Toast.LENGTH_LONG).show();
-                    }
-                }){
-            @Override
-            protected Map<String,String> getParams()
-            {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("days",days1);
-                params.put("bkid",bkid);
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
+
 
 
     @Override
@@ -197,16 +229,42 @@ public class BookActivity extends AppCompatActivity implements View.OnClickListe
         requestQueue.add(stringRequest);
     }
 
+    public void updatecart()
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.UPDATE_CART,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        Toast.makeText(BookActivity.this,response,Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(BookActivity.this,error.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 
+public int Flag=0;
     @Override
     public void onClick(View v) {
-        if(v == add_days)
+        if(v == add_tocartdays)
         {
-            if(getIntent().getExtras().getString("available").equals(SharedPrefManager.getInstance(getApplicationContext()).getUserid()) || FLAG==1)
-            {
-                startActivity(new Intent(getApplicationContext(),Mycart.class));
-            }else
-            ShowPopup1(v);
+            if(add_tocartdays.getText().equals("Go to cart") || Flag==1) {
+
+                startActivity(new Intent(getApplicationContext(), Mycart.class));
+            }
+            else
+                ShowPopup1(v);
         }
         if(v == buynow)
         {
@@ -222,7 +280,6 @@ public class BookActivity extends AppCompatActivity implements View.OnClickListe
     }
 //FOR ADD TO CART BUTTON-------------------------------------------------------------------
     public void ShowPopup1(View v) {
-        FLAG=1;
         myDialog.setContentView(R.layout.customcartpopup_add);
         closethis = myDialog.findViewById(R.id.closeimg1);
         addtocart = myDialog.findViewById(R.id.btnadd);
@@ -233,21 +290,27 @@ public class BookActivity extends AppCompatActivity implements View.OnClickListe
                 EditText etdays;
                 etdays = (EditText)myDialog.findViewById(R.id.etdayadd);
 
-                if(Integer.parseInt(etdays.getText().toString().trim())==0)
+                if(etdays.getText().toString().trim().length()==0)
                 {
-                    Toast.makeText(getApplicationContext(),"days cannot be zero",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"days cannot be empty",Toast.LENGTH_SHORT).show();
                 }
+                else
+                    if(Integer.parseInt(etdays.getText().toString().trim())==0)
+                    {
+                        Toast.makeText(getApplicationContext(),"days cannot be zero",Toast.LENGTH_SHORT).show();
+                    }
                 else {
-                    add_days(etdays.getText().toString().trim());
+                    Flag=1;
                     progressDialog.setMessage("Adding...");
-                    addtomycart();
+                    addtomycart(etdays.getText().toString().trim());
                     progressDialog.show();
                     new CountDownTimer(2000, 1000) {
                         public void onFinish() {
                             // When timer is finished
                             // Execute your code here
                             progressDialog.dismiss();
-                            add_days.setText("Go to Cart");
+                            add_tocartdays.setText("Go to Cart");
+                            updatecart();
                             Toast.makeText(getApplicationContext(), "added to cart!", Toast.LENGTH_SHORT).show();
                         }
 
@@ -284,16 +347,20 @@ public class BookActivity extends AppCompatActivity implements View.OnClickListe
                 if(Integer.parseInt(etdays.getText().toString().trim())==0)
                 {
                     Toast.makeText(getApplicationContext(),"days cannot be zero",Toast.LENGTH_SHORT).show();
+                }else
+                if(Integer.parseInt(etdays.getText().toString().trim())==0)
+                {
+                    Toast.makeText(getApplicationContext(),"days cannot be zero",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    add_days(etdays.getText().toString().trim());
-                    addtomycart();
+                    addtomycart(etdays.getText().toString().trim());
                     progressDialog.show();
                     new CountDownTimer(2000, 1000) {
                         public void onFinish() {
                             // When timer is finished
                             // Execute your code here
                             progressDialog.dismiss();
+                            updatecart();
                             startActivity(new Intent(getApplicationContext(), Mycart.class));
                         }
 

@@ -44,7 +44,7 @@ public class ConfirmRemove extends AppCompatActivity {
 
 
 
-
+        final BookActivity b =new BookActivity();
         progressDialog = new ProgressDialog(this);
         button1 = (Button) findViewById(R.id.idcancel);
         button1.setOnClickListener(new View.OnClickListener() {
@@ -58,12 +58,15 @@ public class ConfirmRemove extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressDialog.setMessage("Removing...");
-                removefromcart(getIntent().getExtras().getString("bkid"));
+                b.Flag=0;
+
+                removefromcart(getIntent().getExtras().getString("bkid"),SharedPrefManager.getInstance(getApplicationContext()).getUserid());
                 progressDialog.show();
                 new CountDownTimer(2000, 1000) {
                     public void onFinish() {
                         // When timer is finished
                         // Execute your code here
+                        updatecart();
                         progressDialog.dismiss();
                         startActivity(new Intent(getApplicationContext(),Mycart.class));
                         Toast.makeText(getApplicationContext(), "removed from cart cart!", Toast.LENGTH_SHORT).show();
@@ -76,9 +79,36 @@ public class ConfirmRemove extends AppCompatActivity {
         });
     }
 
-    public void removefromcart(String bkid)
+    public void updatecart()
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.UPDATE_CART,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+//                        Toast.makeText(BookActivity.this,response,Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ConfirmRemove.this,error.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
+    public void removefromcart(String bkid,String userid)
     {
         final String bkid1=bkid;
+        final String userid1=userid;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.REMOVE_FROM_CART,
                 new Response.Listener<String>()
                 {
@@ -101,6 +131,7 @@ public class ConfirmRemove extends AppCompatActivity {
             {
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("bkid",bkid1);
+                params.put("userid",userid1);
                 return params;
             }
         };
